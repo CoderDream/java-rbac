@@ -18,7 +18,8 @@ import com.jrbac.util.UUIDGenerator;
 import net.coobird.thumbnailator.Thumbnails;
 
 public class ImageService {
-	private static final Logger logger = LoggerFactory.getLogger(ImageService.class);
+	private static final Logger logger = LoggerFactory
+			.getLogger(ImageService.class);
 
 	/**
 	 * @param request
@@ -28,13 +29,15 @@ public class ImageService {
 	 * @return /assets/upload/image/abc.jpg
 	 * @throws IOException
 	 */
-	public static String saveImage(HttpServletRequest request, MultipartFile file, String uploadPath) {
+	public static String saveImage(HttpServletRequest request,
+			MultipartFile file, String uploadPath) {
 		// 如果用的是Tomcat服务器，则文件会上传到\\%TOMCAT_HOME%\\webapps\\YourWebProject\\uploadPath\\文件夹中
 		// String fileName = file.getOriginalFilename();
 		// String fileExt[] = fileName.split("\\.");
 		String ext = file.getContentType().split("\\/")[1];
 		String newFileName = UUIDGenerator.getUUID() + "." + ext;
-		String realPath = request.getSession().getServletContext().getRealPath(uploadPath);
+		String realPath = request.getSession().getServletContext()
+				.getRealPath(uploadPath);
 		String filePathAndName = null;
 		if (realPath.endsWith(File.separator)) {
 			filePathAndName = realPath + newFileName;
@@ -44,7 +47,8 @@ public class ImageService {
 		logger.info("-----上传的文件:{}-----", filePathAndName);
 		try {
 			// 先把文件保存到本地
-			FileUtils.copyInputStreamToFile(file.getInputStream(), new File(realPath, newFileName));
+			FileUtils.copyInputStreamToFile(file.getInputStream(),
+					new File(realPath, newFileName));
 		} catch (IOException e1) {
 			logger.error("-----文件保存到本地发生异常:{}-----", e1.getMessage());
 		}
@@ -57,9 +61,11 @@ public class ImageService {
 		return uploadPath + newFileName;
 	}
 
-	public static boolean deleteFile(HttpServletRequest request, String filePath) {
+	public static boolean deleteFile(HttpServletRequest request,
+			String filePath) {
 
-		String realPath = request.getSession().getServletContext().getRealPath(filePath);
+		String realPath = request.getSession().getServletContext()
+				.getRealPath(filePath);
 		logger.info("-----要删除文件的路径:{}-----", realPath);
 		File file = new File(realPath);
 		try {
@@ -81,7 +87,8 @@ public class ImageService {
 			File cmykJPEGFile = new File(filePathAndName);
 			try {
 				BufferedImage image = ImageIO.read(cmykJPEGFile);
-				ImageOutputStream output = ImageIO.createImageOutputStream(cmykJPEGFile);
+				ImageOutputStream output = ImageIO
+						.createImageOutputStream(cmykJPEGFile);
 				if (!ImageIO.write(image, "jpg", output)) {
 					logger.info("-----cmyk转化异常:{}-----");
 				}

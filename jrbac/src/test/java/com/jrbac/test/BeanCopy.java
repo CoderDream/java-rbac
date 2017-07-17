@@ -8,7 +8,7 @@ import com.jrbac.util.UUIDGenerator;
 
 public class BeanCopy {
 	public static void main(String[] args) {
-		
+
 		LoginUser loginUser = new LoginUser();
 		loginUser.setId(UUIDGenerator.getUUID());
 		loginUser.setNickname("程高伟");

@@ -41,8 +41,9 @@ public class TestController {
 
 	@RequestMapping(value = "/upload", method = RequestMethod.POST)
 	@ResponseBody
-	public String add(String name, @RequestParam(required = false) MultipartFile file, HttpServletRequest request)
-			throws IOException {
+	public String add(String name,
+			@RequestParam(required = false) MultipartFile file,
+			HttpServletRequest request) throws IOException {
 
 		logger.info("-----上传文件:{}-----", name);
 		if (null == file || file.isEmpty()) {
@@ -56,13 +57,15 @@ public class TestController {
 				return BaseReturn.response(ErrorCode.FAILURE, "图片大小不能超过10M");
 			}
 			if (!file.getContentType().contains("image")) {
-				return BaseReturn.response(ErrorCode.UNSUPPORTED_TYPE, "不支持的图片类型：" + file.getContentType());
+				return BaseReturn.response(ErrorCode.UNSUPPORTED_TYPE,
+						"不支持的图片类型：" + file.getContentType());
 			}
 			String image = ImageService.saveImage(request, file, uploadPath);
 			return BaseReturn.response(ErrorCode.SUCCESS, image);
 		}
 		return BaseReturn.response(ErrorCode.SUCCESS);
 	}
+
 	@ResponseBody
 	@RequestMapping("/json")
 	public String testJson() {

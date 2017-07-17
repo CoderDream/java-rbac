@@ -65,7 +65,8 @@ public interface LoginUserService {
 	 * @param userIds
 	 * @return
 	 */
-	public List<LoginUserVO> queryRoleListByUserId(int offset, int limit, String[] userIds);
+	public List<LoginUserVO> queryRoleListByUserId(int offset, int limit,
+			String[] userIds);
 
 	/**
 	 * 管理员添加或修改用户

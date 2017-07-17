@@ -24,22 +24,22 @@ public class GeetestLib {
 	protected final String verName = "3.2.0";// SDK版本编号
 	protected final String sdkLang = "java";// SD的语言类型
 
-	protected final String apiUrl = "http://api.geetest.com"; //极验验证API URL
+	protected final String apiUrl = "http://api.geetest.com"; // 极验验证API URL
 	protected final String baseUrl = "api.geetest.com";
-	
-	protected final String registerUrl = "/register.php"; //register url
-	protected final String validateUrl = "/validate.php"; //validate url
+
+	protected final String registerUrl = "/register.php"; // register url
+	protected final String validateUrl = "/validate.php"; // validate url
 
 	/**
 	 * 极验验证二次验证表单数据 chllenge
 	 */
 	public static final String fn_geetest_challenge = "geetest_challenge";
-	
+
 	/**
 	 * 极验验证二次验证表单数据 validate
 	 */
 	public static final String fn_geetest_validate = "geetest_validate";
-	
+
 	/**
 	 * 极验验证二次验证表单数据 seccode
 	 */
@@ -53,23 +53,23 @@ public class GeetestLib {
 	/**
 	 * 私钥
 	 */
-	
+
 	private String privateKey = "";
-	
+
 	private String userId = "";
 
 	private String responseStr = "";
-	
+
 	/**
 	 * 调试开关，是否输出调试日志
 	 */
 	public boolean debugCode = true;
-	
+
 	/**
 	 * 极验验证API服务状态Session Key
 	 */
 	public String gtServerStatusSessionKey = "gt_server_status";
-	
+
 	/**
 	 * 带参数构造函数
 	 * 
@@ -80,7 +80,7 @@ public class GeetestLib {
 		this.captchaId = captchaId;
 		this.privateKey = privateKey;
 	}
-	
+
 	/**
 	 * 获取本次验证初始化返回字符串
 	 * 
@@ -89,7 +89,7 @@ public class GeetestLib {
 	public String getResponseStr() {
 		return responseStr;
 	}
-	
+
 	public String getVersionInfo() {
 		return verName;
 	}
@@ -117,7 +117,7 @@ public class GeetestLib {
 	 * 
 	 */
 	private String getSuccessPreProcessRes(String challenge) {
-		
+
 		gtlog("challenge:" + challenge);
 		return String.format(
 				"{\"success\":%s,\"gt\":\"%s\",\"challenge\":\"%s\"}", 1,
@@ -132,28 +132,26 @@ public class GeetestLib {
 	public int preProcess() {
 
 		if (registerChallenge() != 1) {
-			
+
 			this.responseStr = this.getFailPreProcessRes();
 			return 0;
 		}
-		
+
 		return 1;
 
 	}
-	
+
 	/**
 	 * 验证初始化预处理
 	 *
 	 * @param userid
 	 * @return 1表示初始化成功，0表示初始化失败
 	 */
-	public int preProcess(String userid){
-		
+	public int preProcess(String userid) {
+
 		this.userId = userid;
 		return this.preProcess();
 	}
-	
-	
 
 	/**
 	 * 用captchaID进行注册，更新challenge
@@ -162,8 +160,8 @@ public class GeetestLib {
 	 */
 	private int registerChallenge() {
 		try {
-			String GET_URL = apiUrl + registerUrl+"?gt=" + this.captchaId;
-			if (this.userId != ""){
+			String GET_URL = apiUrl + registerUrl + "?gt=" + this.captchaId;
+			if (this.userId != "") {
 				GET_URL = GET_URL + "&user_id=" + this.userId;
 				this.userId = "";
 			}
@@ -172,8 +170,9 @@ public class GeetestLib {
 			gtlog("register_result:" + result_str);
 			if (32 == result_str.length()) {
 
-				this.responseStr = this.getSuccessPreProcessRes(this.md5Encode(result_str + this.privateKey));
-				
+				this.responseStr = this.getSuccessPreProcessRes(
+						this.md5Encode(result_str + this.privateKey));
+
 				return 1;
 			} else {
 				gtlog("gtServer register challenge failed");
@@ -203,7 +202,7 @@ public class GeetestLib {
 
 		// 建立与服务器的连接，并未发送数据
 		connection.connect();
-		
+
 		// 发送数据到服务器并使用Reader读取返回的数据
 		StringBuffer sBuffer = new StringBuffer();
 
@@ -218,10 +217,7 @@ public class GeetestLib {
 
 		return sBuffer.toString();
 	}
-	
-	
-	
-	
+
 	/**
 	 * 判断一个表单对象值是否为空
 	 * 
@@ -246,7 +242,8 @@ public class GeetestLib {
 	 * @param request
 	 * @return
 	 */
-	private boolean resquestIsLegal(String challenge, String validate, String seccode) {
+	private boolean resquestIsLegal(String challenge, String validate,
+			String seccode) {
 
 		if (objIsEmpty(challenge)) {
 			return false;
@@ -262,8 +259,7 @@ public class GeetestLib {
 
 		return true;
 	}
-	
-	
+
 	/**
 	 * 服务正常的情况下使用的验证方式,向gt-server进行二次验证,获取验证结果
 	 * 
@@ -272,21 +268,22 @@ public class GeetestLib {
 	 * @param seccode
 	 * @return 验证结果,1表示验证成功0表示验证失败
 	 */
-	public int enhencedValidateRequest(String challenge, String validate, String seccode) {	
-		
+	public int enhencedValidateRequest(String challenge, String validate,
+			String seccode) {
+
 		if (!resquestIsLegal(challenge, validate, seccode)) {
 			return 0;
 		}
 		gtlog("request legitimate");
-		
+
 		String host = baseUrl;
 		String path = validateUrl;
 		int port = 80;
 		String query = String.format("seccode=%s&sdk=%s", seccode,
 				(this.sdkLang + "_" + this.verName));
 		String response = "";
-		
-		if (this.userId != ""){
+
+		if (this.userId != "") {
 			query = query + "&user_id=" + this.userId;
 			this.userId = "";
 		}
@@ -315,7 +312,7 @@ public class GeetestLib {
 			return 0;
 		}
 	}
-	
+
 	/**
 	 * 服务正常的情况下使用的验证方式,向gt-server进行二次验证,获取验证结果
 	 * 
@@ -325,8 +322,9 @@ public class GeetestLib {
 	 * @param userid
 	 * @return 验证结果,1表示验证成功0表示验证失败
 	 */
-	public int enhencedValidateRequest(String challenge, String validate, String seccode, String userid) {	
-		
+	public int enhencedValidateRequest(String challenge, String validate,
+			String seccode, String userid) {
+
 		this.userId = userid;
 		return this.enhencedValidateRequest(challenge, validate, seccode);
 	}
@@ -339,7 +337,8 @@ public class GeetestLib {
 	 * @param seccode
 	 * @return 验证结果,1表示验证成功0表示验证失败
 	 */
-	public int failbackValidateRequest(String challenge, String validate, String seccode) {
+	public int failbackValidateRequest(String challenge, String validate,
+			String seccode) {
 
 		gtlog("in failback validate");
 
@@ -356,20 +355,20 @@ public class GeetestLib {
 		gtlog(String.format(
 				"encode----challenge:%s--ans:%s,bg_idx:%s,grp_idx:%s",
 				challenge, encodeAns, encodeFullBgImgIndex, encodeImgGrpIndex));
-			
+
 		int decodeAns = decodeResponse(challenge, encodeAns);
-		int decodeFullBgImgIndex = decodeResponse(challenge, encodeFullBgImgIndex);
+		int decodeFullBgImgIndex = decodeResponse(challenge,
+				encodeFullBgImgIndex);
 		int decodeImgGrpIndex = decodeResponse(challenge, encodeImgGrpIndex);
 
 		gtlog(String.format("decode----ans:%s,bg_idx:%s,grp_idx:%s", decodeAns,
 				decodeFullBgImgIndex, decodeImgGrpIndex));
 
-		int validateResult = validateFailImage(decodeAns,decodeFullBgImgIndex, decodeImgGrpIndex);
+		int validateResult = validateFailImage(decodeAns, decodeFullBgImgIndex,
+				decodeImgGrpIndex);
 
 		return validateResult;
 	}
-	
-	
 
 	/**
 	 *
@@ -413,10 +412,7 @@ public class GeetestLib {
 			return 0;
 		}
 	}
-	
-	
-	
-	
+
 	/**
 	 * 解码随机参数
 	 * 
@@ -484,8 +480,6 @@ public class GeetestLib {
 		return decodeRes;
 
 	}
-	
-	
 
 	/**
 	 * 输出debug信息，需要开启debugCode
@@ -516,24 +510,24 @@ public class GeetestLib {
 	protected String postValidate(String host, String path, String data,
 			int port) throws Exception {
 		String response = "error";
-		
+
 		InetAddress addr = InetAddress.getByName(host);
 		Socket socket = new Socket(addr, port);
-		BufferedWriter wr = new BufferedWriter(new OutputStreamWriter(
-				socket.getOutputStream(), "UTF8"));
+		BufferedWriter wr = new BufferedWriter(
+				new OutputStreamWriter(socket.getOutputStream(), "UTF8"));
 		wr.write("POST " + path + " HTTP/1.0\r\n");
 		wr.write("Host: " + host + "\r\n");
 		wr.write("Content-Type: application/x-www-form-urlencoded\r\n");
 		wr.write("Content-Length: " + data.length() + "\r\n");
 		wr.write("\r\n"); // 以空行作为分割
-		
+
 		// 发送数据
 		wr.write(data);
 		wr.flush();
-		
+
 		// 读取返回信息
-		BufferedReader rd = new BufferedReader(new InputStreamReader(
-				socket.getInputStream(), "UTF-8"));
+		BufferedReader rd = new BufferedReader(
+				new InputStreamReader(socket.getInputStream(), "UTF-8"));
 		String line;
 		while ((line = rd.readLine()) != null) {
 			response = line;
@@ -543,7 +537,6 @@ public class GeetestLib {
 		socket.close();
 		return response;
 	}
-
 
 	/**
 	 * md5 加密

@@ -139,9 +139,11 @@ public class LoginUser implements Serializable {
 
 	@Override
 	public String toString() {
-		return "LoginUser [id=" + id + ", username=" + username + ", password=" + password + ", nickname=" + nickname
-				+ ", telephone=" + telephone + ", email=" + email + ", createTime=" + createTime + ", updateTime="
-				+ updateTime + ", accountStatus=" + accountStatus + ", status=" + status + "]";
+		return "LoginUser [id=" + id + ", username=" + username + ", password="
+				+ password + ", nickname=" + nickname + ", telephone="
+				+ telephone + ", email=" + email + ", createTime=" + createTime
+				+ ", updateTime=" + updateTime + ", accountStatus="
+				+ accountStatus + ", status=" + status + "]";
 	}
 
 }

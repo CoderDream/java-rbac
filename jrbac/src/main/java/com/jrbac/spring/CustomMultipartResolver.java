@@ -21,23 +21,28 @@ public class CustomMultipartResolver extends CommonsMultipartResolver {
 	@Autowired
 	private FileUploadProgressListener progressListener;
 
-	public void setFileUploadProgressListener(FileUploadProgressListener progressListener) {
+	public void setFileUploadProgressListener(
+			FileUploadProgressListener progressListener) {
 		this.progressListener = progressListener;
 	}
 
 	@Override
-	public MultipartParsingResult parseRequest(HttpServletRequest request) throws MultipartException {
+	public MultipartParsingResult parseRequest(HttpServletRequest request)
+			throws MultipartException {
 		String encoding = determineEncoding(request);
 		FileUpload fileUpload = prepareFileUpload(encoding);
 		progressListener.setSession(request.getSession());
 		fileUpload.setProgressListener(progressListener);
 		try {
-			List<FileItem> fileItems = ((ServletFileUpload) fileUpload).parseRequest(request);
+			List<FileItem> fileItems = ((ServletFileUpload) fileUpload)
+					.parseRequest(request);
 			return parseFileItems(fileItems, encoding);
 		} catch (FileUploadBase.SizeLimitExceededException ex) {
-			throw new MaxUploadSizeExceededException(fileUpload.getSizeMax(), ex);
+			throw new MaxUploadSizeExceededException(fileUpload.getSizeMax(),
+					ex);
 		} catch (FileUploadException ex) {
-			throw new MultipartException("Could not parse multipart servlet request", ex);
+			throw new MultipartException(
+					"Could not parse multipart servlet request", ex);
 		}
 	}
 

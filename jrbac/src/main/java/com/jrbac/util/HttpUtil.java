@@ -32,7 +32,8 @@ import org.slf4j.LoggerFactory;
  */
 public class HttpUtil {
 	private static final Logger log = LoggerFactory.getLogger(HttpUtil.class);
-	private static final CloseableHttpClient httpclient = HttpClients.createDefault();
+	private static final CloseableHttpClient httpclient = HttpClients
+			.createDefault();
 
 	/**
 	 * 发送HttpGet请求
@@ -79,10 +80,12 @@ public class HttpUtil {
 		// 设置参数
 		List<NameValuePair> formparams = new ArrayList<NameValuePair>();
 		for (Map.Entry<String, String> entry : map.entrySet()) {
-			formparams.add(new BasicNameValuePair(entry.getKey(), entry.getValue()));
+			formparams.add(
+					new BasicNameValuePair(entry.getKey(), entry.getValue()));
 		}
 		// 编码
-		UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formparams, Consts.UTF_8);
+		UrlEncodedFormEntity formEntity = new UrlEncodedFormEntity(formparams,
+				Consts.UTF_8);
 		// 取得HttpPost对象
 		HttpPost httppost = new HttpPost(url);
 		// 参数放入Entity
@@ -124,7 +127,8 @@ public class HttpUtil {
 	public static String sendPost(String url, File file) {
 		String result = null;
 		HttpPost post = new HttpPost(url);
-		MultipartEntityBuilder multipartEntity = MultipartEntityBuilder.create();
+		MultipartEntityBuilder multipartEntity = MultipartEntityBuilder
+				.create();
 		multipartEntity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
 		multipartEntity.addPart("media", new FileBody(file));
 		post.setEntity(multipartEntity.build());

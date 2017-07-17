@@ -10,7 +10,8 @@ import com.google.gson.GsonBuilder;
  * @date 2016年11月14日 上午10:37:51
  */
 public class BaseReturn {
-	private static final Gson gson = new GsonBuilder().disableHtmlEscaping().create();
+	private static final Gson gson = new GsonBuilder().disableHtmlEscaping()
+			.create();
 
 	/**
 	 * 返回错误码

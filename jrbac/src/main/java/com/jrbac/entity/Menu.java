@@ -94,8 +94,9 @@ public class Menu implements Serializable {
 
 	@Override
 	public String toString() {
-		return "Menu [id=" + id + ", parentId=" + parentId + ", name=" + name + ", url=" + url + ", icon=" + icon
-				+ ", order=" + order + ", children=" + children + ", parent=" + parent + "]";
+		return "Menu [id=" + id + ", parentId=" + parentId + ", name=" + name
+				+ ", url=" + url + ", icon=" + icon + ", order=" + order
+				+ ", children=" + children + ", parent=" + parent + "]";
 	}
 
 	@Override

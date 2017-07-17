@@ -32,7 +32,8 @@ public class DESUtil {
 	 * @return 加密后的字符串
 	 * @throws Exception
 	 */
-	public static String encryption(String plainData, String secretKey) throws Exception {
+	public static String encryption(String plainData, String secretKey)
+			throws Exception {
 
 		Cipher cipher = null;
 		try {
@@ -75,7 +76,8 @@ public class DESUtil {
 	 * @return 原始字符串
 	 * @throws Exception
 	 */
-	public static String decryption(String secretData, String secretKey) throws Exception {
+	public static String decryption(String secretData, String secretKey)
+			throws Exception {
 
 		Cipher cipher = null;
 		try {
@@ -96,7 +98,8 @@ public class DESUtil {
 
 		try {
 
-			byte[] buf = cipher.doFinal(Base64Utils.decode(secretData.toCharArray()));
+			byte[] buf = cipher
+					.doFinal(Base64Utils.decode(secretData.toCharArray()));
 
 			return new String(buf);
 
@@ -119,8 +122,10 @@ public class DESUtil {
 	 * @throws InvalidKeyException
 	 */
 	private static SecretKey generateKey(String secretKey)
-			throws NoSuchAlgorithmException, InvalidKeySpecException, InvalidKeyException {
-		SecretKeyFactory keyFactory = SecretKeyFactory.getInstance(DES_ALGORITHM);
+			throws NoSuchAlgorithmException, InvalidKeySpecException,
+			InvalidKeyException {
+		SecretKeyFactory keyFactory = SecretKeyFactory
+				.getInstance(DES_ALGORITHM);
 		DESKeySpec keySpec = new DESKeySpec(secretKey.getBytes());
 		keyFactory.generateSecret(keySpec);
 		return keyFactory.generateSecret(keySpec);

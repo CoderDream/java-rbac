@@ -9,7 +9,7 @@ public class BaseReturnTest {
 
 	@Test
 	public void testResponse() {
-		TestAddress address= new TestAddress();
+		TestAddress address = new TestAddress();
 		address.setCity("四川");
 		address.setArea("成都");
 		TestUser testUser = new TestUser("张三", 12, address);

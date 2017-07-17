@@ -36,7 +36,8 @@ public class ZtreeService {
 			ztree.setpId(menu.getParentId());
 			ztree.setName(menu.getName());
 			ztree.setIcon(menu.getIcon());
-			if (menu.getName().equals("个人设置") || menu.getName().equals("后台首页")) {
+			if (menu.getName().equals("个人设置")
+					|| menu.getName().equals("后台首页")) {
 				ztree.setChecked(true);
 				ztree.setChkDisabled(true);
 			}
@@ -57,7 +58,8 @@ public class ZtreeService {
 	 * @param roleId
 	 * @return
 	 */
-	public List<Ztree> getMenuZtreeByRoleId(LoginUser loginUser, String roleid) {
+	public List<Ztree> getMenuZtreeByRoleId(LoginUser loginUser,
+			String roleid) {
 		// 1 查询出用户所拥有的权限
 		List<Menu> menuList = menuDao.queryAll(loginUser);
 		// 2 查询出角色所拥有的权限
@@ -69,7 +71,8 @@ public class ZtreeService {
 			ztree.setpId(menu.getParentId());
 			ztree.setName(menu.getName());
 			ztree.setIcon(menu.getIcon());
-			if (menu.getName().equals("个人设置") || menu.getName().equals("后台首页")) {
+			if (menu.getName().equals("个人设置")
+					|| menu.getName().equals("后台首页")) {
 				ztree.setChecked(true);
 				ztree.setChkDisabled(true);
 			}
@@ -105,8 +108,8 @@ public class ZtreeService {
 		}
 		return ztreeList;
 	}
-	
-	public List<Ztree> getRoleZtree(LoginUser loginUser,String userid) {
+
+	public List<Ztree> getRoleZtree(LoginUser loginUser, String userid) {
 		List<Role> roleList = roleDao.queryAll(loginUser);
 		List<Role> userRoleList = roleDao.queryByUserId(userid);
 		List<Ztree> ztreeList = new ArrayList<>();

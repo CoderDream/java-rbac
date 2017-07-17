@@ -34,7 +34,7 @@ public interface MenuService {
 	 * @return
 	 */
 	public List<Menu> queryAll(LoginUser loginUser);
-	
+
 	/**
 	 * 根据id查询一个菜单
 	 * 

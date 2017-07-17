@@ -59,10 +59,12 @@ public class LoginUserServiceImpl implements LoginUserService {
 		int updateUserRole = 0;
 		if (StringUtils.isBlank(loginUser.getId())) {// 新增
 			loginUser.setId(UUIDGenerator.getUUID());
-			loginUser.setPassword(PasswordUtil.getPassword(loginUser.getPassword()));
+			loginUser.setPassword(
+					PasswordUtil.getPassword(loginUser.getPassword()));
 			updateCount = loginUserDao.add(loginUser);
 			// 插入角色
-			updateUserRole = loginUserDao.addUserRole(loginUser.getId(), roleIds);
+			updateUserRole = loginUserDao.addUserRole(loginUser.getId(),
+					roleIds);
 			if (updateCount == 0 || updateUserRole == 0) {
 				return 0;
 			} else {
@@ -71,9 +73,12 @@ public class LoginUserServiceImpl implements LoginUserService {
 		} else {// 修改
 				// 修改用户信息，修改用户角色表
 			updateCount = loginUserDao.update(loginUser);
-			deleteUserRole = loginUserDao.deleteUserRoleByUserId(loginUser.getId());
-			updateUserRole = loginUserDao.addUserRole(loginUser.getId(), roleIds);
-			if (updateCount == 0 || deleteUserRole == 0 || updateUserRole == 0) {
+			deleteUserRole = loginUserDao
+					.deleteUserRoleByUserId(loginUser.getId());
+			updateUserRole = loginUserDao.addUserRole(loginUser.getId(),
+					roleIds);
+			if (updateCount == 0 || deleteUserRole == 0
+					|| updateUserRole == 0) {
 				return 0;
 			} else {
 				return 1;
@@ -88,7 +93,8 @@ public class LoginUserServiceImpl implements LoginUserService {
 	}
 
 	@Override
-	public List<LoginUserVO> queryRoleListByUserId(int offset, int limit, String[] userIds) {
+	public List<LoginUserVO> queryRoleListByUserId(int offset, int limit,
+			String[] userIds) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -100,14 +106,12 @@ public class LoginUserServiceImpl implements LoginUserService {
 
 	@Override
 	public int updatePassword(String userId, String password) {
-		if(StringUtils.isBlank(password)){
-			password=PasswordUtil.getPassword("12345678");
-		}else{
-			password=PasswordUtil.getPassword(password);
+		if (StringUtils.isBlank(password)) {
+			password = PasswordUtil.getPassword("12345678");
+		} else {
+			password = PasswordUtil.getPassword(password);
 		}
 		return loginUserDao.updatePassword(userId, password);
 	}
-
-	
 
 }

@@ -45,7 +45,8 @@ public class RoleServiceImpl implements RoleService {
 			updateCount = roleDao.update(role);
 			deleteRoleMenu = roleDao.deleteRoleMenuByRoleId(role.getId());
 			updateRoleMenu = roleDao.addRoleMenu(role.getId(), menuIds);
-			if (updateCount == 0 || deleteRoleMenu == 0 || updateRoleMenu == 0) {
+			if (updateCount == 0 || deleteRoleMenu == 0
+					|| updateRoleMenu == 0) {
 				return 0;
 			} else {
 				return 1;

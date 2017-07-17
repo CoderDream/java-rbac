@@ -4,7 +4,6 @@ import java.util.Set;
 
 import com.jrbac.entity.LoginUser;
 
-
 public interface UserAuthService {
 
 	/**

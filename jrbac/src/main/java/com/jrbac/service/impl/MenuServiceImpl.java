@@ -20,10 +20,10 @@ public class MenuServiceImpl implements MenuService {
 
 	@Override
 	public int addOrUpdateMenu(Menu menu) {
-		if(StringUtils.isBlank(menu.getId())){
+		if (StringUtils.isBlank(menu.getId())) {
 			menu.setId(UUIDGenerator.getUUID());
 			return menuDao.add(menu);
-		}else{
+		} else {
 			return menuDao.update(menu);
 		}
 	}

@@ -24,12 +24,14 @@ public class MyShiroRealm extends AuthorizingRealm {
 	 * 获取授权信息，也就是看有没有权限操作
 	 */
 	@Override
-	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
+	protected AuthorizationInfo doGetAuthorizationInfo(
+			PrincipalCollection principals) {
 		logger.info("-----授权-----");
 		LoginUser user = (LoginUser) principals.getPrimaryPrincipal();
 		SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
 		authorizationInfo.setRoles(userAuthService.findRoles(user));
-		authorizationInfo.setStringPermissions(userAuthService.findPermissions(user));
+		authorizationInfo
+				.setStringPermissions(userAuthService.findPermissions(user));
 		return authorizationInfo;
 	}
 
@@ -37,8 +39,8 @@ public class MyShiroRealm extends AuthorizingRealm {
 	 * 获取认证信息，也就是用户登录
 	 */
 	@Override
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken)
-			throws AuthenticationException {
+	protected AuthenticationInfo doGetAuthenticationInfo(
+			AuthenticationToken authcToken) throws AuthenticationException {
 		logger.info("-----认证-----");
 		// 将AuthenticationToken转化为UsernamePasswordToken
 		UsernamePasswordToken token = (UsernamePasswordToken) authcToken;
@@ -51,7 +53,8 @@ public class MyShiroRealm extends AuthorizingRealm {
 		logger.info("-----username:{},password:{}-----", username, password);
 		LoginUser user = userAuthService.login(username, password);
 		if (user != null) {
-			SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user, password.toCharArray(), getName());
+			SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(user,
+					password.toCharArray(), getName());
 			return info;
 		}
 		return null;
